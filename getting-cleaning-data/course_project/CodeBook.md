@@ -1,0 +1,74 @@
+## The code book for the final data set variables 
+
+# Criteria
+	The subset has been taken based on the key words mean() and std() from the column names. Following are the appropriately labeled column names taken into account to obtain tidy dataset.
+
+* 1  t.body.acc.mean.X
+* 2 t.body.acc.mean.Y
+* 3 t.body.acc.mean.Z
+* 4 t.body.acc.std.X
+* 5 t.body.acc.std.Y
+* 6 t.body.acc.std.Z
+* 7 t.gravity.acc.mean.X
+* 8 t.gravity.acc.mean.Y
+* 9 t.gravity.acc.mean.Z
+* 10 t.gravity.acc.std.X
+* 11 t.gravity.acc.std.Y
+* 12 t.gravity.acc.std.Z
+* 13 t.body.acc.jerk.mean.X
+* 14 t.body.acc.jerk.mean.Y
+* 15 t.body.acc.jerk.mean.Z
+* 16 t.body.acc.jerk.std.X
+* 17 t.body.acc.jerk.std.Y
+* 18 t.body.acc.jerk.std.Z
+* 19 t.body.gyro.mean.X
+* 20 t.body.gyro.mean.Y
+* 21 t.body.gyro.mean.Z
+* 22 t.body.gyro.std.X
+* 23 t.body.gyro.std.Y
+* 24 t.body.gyro.std.Z
+* 25 t.body.gyro.jerk.mean.X
+* 26 t.body.gyro.jerk.mean.Y
+* 27 t.body.gyro.jerk.mean.Z
+* 28 t.body.gyro.jerk.std.X
+* 29 t.body.gyro.jerk.std.Y
+* 30 t.body.gyro.jerk.std.Z
+* 31 t.body.acc.mag.mean
+* 32 t.body.acc.mag.std
+* 33 t.gravity.acc.mag.mean
+* 34 t.gravity.acc.mag.std
+* 35 t.body.acc.jerk.mag.mean
+* 36 t.body.acc.jerk.mag.std
+* 37 t.body.gyro.mag.mean
+* 38 t.body.gyro.mag.std
+* 39 t.body.gyro.jerk.mag.mean
+* 40 t.body.gyro.jerk.mag.std
+* 41 f.body.acc.mean.X
+* 42 f.body.acc.mean.Y
+* 43 f.body.acc.mean.Z
+* 44 f.body.acc.std.X
+* 45 f.body.acc.std.Y
+* 46 f.body.acc.std.Z
+* 47 f.body.acc.jerk.mean.X
+* 48 f.body.acc.jerk.mean.Y
+* 49 f.body.acc.jerk.mean.Z
+* 50 f.body.acc.jerk.std.X
+* 51 f.body.acc.jerk.std.Y
+* 52 f.body.acc.jerk.std.Z
+* 53 f.body.gyro.mean.X
+* 54 f.body.gyro.mean.Y
+* 55 f.body.gyro.mean.Z
+* 56 f.body.gyro.std.X
+* 57 f.body.gyro.std.Y 
+* 58 f.body.gyro.std.Z
+* 59 f.body.acc.mag.mean
+* 60 f.body.acc.mag.std
+* 61 f.body.body.acc.jerk.mag.mean
+* 62 f.body.body.acc.jerk.mag.std
+* 63 f.body.body.gyro.mag.mean
+* 64 f.body.body.gyro.mag.std
+* 65 f.body.body.gyro.jerk.mag.mean
+* 66 f.body.body.gyro.jerk.mag.std
+* 67 subject
+* 68 activity
+
