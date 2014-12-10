@@ -1,4 +1,4 @@
-ds-coursera
-===========
+datasciencecoursera
+===================
 
-A repository for coursera courses on data science
+This repository contains the code used in Data science courses in Coursera and other MOOCS
