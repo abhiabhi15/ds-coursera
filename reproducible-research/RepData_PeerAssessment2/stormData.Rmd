@@ -1,0 +1,111 @@
+Topic : Weather Events Impacts on US Public Health and Economy
+===============================================================
+
+Synopsis
+=================
+
+In this document, a brief report is presented euclidating the damages of life and property due to various distratrous calamitic events both directly and indirectly. The Events and the damage data is captured by various resources. More detail of this data can be found here. For this analysis, the first step taken was understanding of data which can be done by reading the document link mention above. After that, feature selection and extraction were required as part of data pre-processing. Since the objective of this analysis was to analyze human health and property hazards, many features captured in the data were not necessary. Hence the features related to the analysis were extracted and transformed accordinly. After that based on the event types i.e. different disastrous events like Tornado, Cold Storm etc., the human injuries and fatalities were aggregated to show the impact of these events on human health. Similarly the property damage and crop damage expenses were aggregated to estimate the impact of economical loss due to these events.
+``````{r setup, include=FALSE}
+knitr::opts_chunk$set(cache=TRUE)
+options(scipen = 1)
+```
+
+
+Data Processing
+======================
+
+In this step, the raw data is being extracted and brief detail of its features are projected. Based on the features and analysis requirements, a subset of features are extracted. And in the last part, the total expense based on damage amount and approrimate figure has been calculated for property and crop damages. Unused features are then rejected.
+
+```{r}
+
+library(gridExtra)
+library(ggplot2)
+
+stormData <- read.csv("repdata-data-StormData.csv") 
+str(stormData)
+head(stormData, 2)
+
+selected_features <- c("BGN_DATE","STATE","EVTYPE","FATALITIES",
+                       "INJURIES","PROPDMG","PROPDMGEXP","CROPDMG","CROPDMGEXP")
+
+sData <- stormData[,selected_features]
+sData$PROPDMGEXP <- factor(sData$PROPDMGEXP)
+sData$CROPDMGEXP <- factor(sData$CROPDMGEXP)
+
+calExpense <- function(num, val){
+    if(is.na(num) || num <= 0){
+        return(0)
+    }
+    switch(val,
+         K =  { return(num * 1000)},
+         M =  { return(num * 1000000)},
+         B =  { return(num * 1000000000)},
+         { return(0)}
+    )
+}
+
+sData$PROPDMGEXPENSE <- apply(sData[,c('PROPDMG','PROPDMGEXP')], 1, function(x) calExpense(as.numeric(x['PROPDMG']),x['PROPDMGEXP']))
+
+sData$CROPDMGEXPENSE <- apply(sData[,c('CROPDMG','CROPDMGEXP')], 1, function(x) calExpense(as.numeric(x['CROPDMG']),x['CROPDMGEXP']))
+
+sData <- sData[,!(names(sData) %in% c("PROPDMG","PROPDMGEXP","CROPDMG","CROPDMGEXP"))]
+```
+
+Results
+=================
+
+Below are the results of the analysis which projects the impact of the calamity events on human health and economical consequences.
+
+Fatalities and Health hazards
+=============================
+
+```{r}
+fatalities <- aggregate(sData$FATALITIES, list(sData$EVTYPE), FUN="sum")
+fatalities <- fatalities[order(fatalities$x, decreasing=T)[1:10],]
+names(fatalities) <- c("EventType", "Count" )
+```
+**Top 10 Fatalities Causing Calamity Events**
+```{r}
+fatalities #Fatality Count Vs Calamity Events
+injuries <- aggregate(sData$INJURIES, list(sData$EVTYPE), FUN="sum")
+injuries <- injuries[order(injuries$x, decreasing=T)[1:10],]
+names(injuries) <- c("EventType", "Count" )
+```
+**Top 10 Injuries Causing Calamity Events**
+```{r}
+injuries #Injury Count Vs Calamity Events
+plot1 <- ggplot(fatalities, aes(x = EventType, y = Count, fill = EventType)) + ylab("Number of Fatalities") + xlab("Event Types") + ggtitle("Faltalies Caused") + geom_bar(stat = "identity") + theme(axis.text.x = element_text(angle = 70, hjust = 1), legend.position = "none")
+
+plot2 <- ggplot(injuries, aes(x = EventType, y = Count, fill= EventType)) + ylab("Number of Injuries") + xlab("Event Types") + ggtitle("Injuries Caused") + geom_bar(stat = "identity") + theme(axis.text.x = element_text(angle = 70, hjust = 1), legend.position = "none")
+
+grid.arrange(plot1, plot2, ncol=2)
+```
+Property and Crop Damage
+=======
+
+```{r}
+propDmgs <- aggregate(sData$PROPDMGEXPENSE, list(sData$EVTYPE), FUN="sum")
+propDmgs <- propDmgs[order(propDmgs$x, decreasing=T)[1:10],]
+names(propDmgs) <- c("EventType", "Cost" )
+```
+**Top 10 Most Costly Property Damages Caused by Calamity Events**
+
+```{r}
+propDmgs #Property Damage Cost Vs Calamity Events
+
+## Crop Damage Analysis
+
+cropDmgs <- aggregate(sData$CROPDMGEXPENSE, list(sData$EVTYPE), FUN="sum")
+cropDmgs <- cropDmgs[order(cropDmgs$x, decreasing=T)[1:10],]
+names(cropDmgs) <- c("EventType", "Cost" )
+```
+
+**Top 10 Most Costly Crop Damages Caused by Calamity Events**
+```{r}
+cropDmgs # Crop Damage Cost Vs Calamity Events
+
+plot1 <- ggplot(propDmgs, aes(x = EventType, y = Cost, fill = EventType)) + ylab("Total Cost in Dollars") + xlab("Event Types") + ggtitle("Property Damage Expense ") + geom_bar(stat = "identity") + theme(axis.text.x = element_text(angle = 70, hjust = 1), legend.position = "none")
+
+plot2 <- ggplot(cropDmgs, aes(x = EventType, y = Cost, fill = EventType)) + ylab("Total Cost in Dollars") + xlab("Event Types") + ggtitle("Crop Damage Expense") + geom_bar(stat = "identity") + theme(axis.text.x = element_text(angle = 70, hjust = 1), legend.position = "none")
+
+grid.arrange(plot1, plot2, ncol=2)
